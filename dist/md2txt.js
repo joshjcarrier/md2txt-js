@@ -21,11 +21,11 @@ global.MarkdownToText = {
             bolder = "";
             for (var c of str) {
                 if (c.match(/[A-Z]/)) {
-                    bolder += String.fromCodePoint(0x1D400 + (c.charCodeAt(0) - 65)) + "\u0332";
+                    bolder += "\ud835" + String.fromCodePoint(0xDC00 + (c.charCodeAt(0) - 65)) + "\u0332";
                 } else if (c.match(/[a-z]/)) {
-                    bolder += String.fromCodePoint(0x1D400 + (c.charCodeAt(0) - 71)) + "\u0332";
+                    bolder += "\ud835" + String.fromCodePoint(0xDC1A + (c.charCodeAt(0) - 97)) + "\u0332";
                 } else if (c.match(/[0-9]/)) {
-                    bolder += String.fromCodePoint(0x1D7CE + (c.charCodeAt(0) - 48));
+                    bolder += "\ud835" + String.fromCodePoint(0xDFCE + (c.charCodeAt(0) - 48));
                 } else {
                     bolder += c;
                 }
@@ -42,11 +42,11 @@ global.MarkdownToText = {
             bolder = "";
             for (var c of str) {
                 if (c.match(/[A-Z]/)) {
-                    bolder += String.fromCodePoint(0x1D400 + (c.charCodeAt(0) - 65));
+                    bolder += "\ud835" + String.fromCodePoint(0xDC00 + (c.charCodeAt(0) - 65));
                 } else if (c.match(/[a-z]/)) {
-                    bolder += String.fromCodePoint(0x1D400 + (c.charCodeAt(0) - 71));
+                    bolder += "\ud835" + String.fromCodePoint(0xDC1A + (c.charCodeAt(0) - 97));
                 } else if (c.match(/[0-9]/)) {
-                    bolder += String.fromCodePoint(0x1D7CE + (c.charCodeAt(0) - 48));
+                    bolder += "\ud835" + String.fromCodePoint(0xDFCE + (c.charCodeAt(0) - 48));
                 } else {
                     bolder += c;
                 }
@@ -61,9 +61,9 @@ global.MarkdownToText = {
             bolder = "";
             for (var c of str) {
                 if (c.match(/[A-Z]/)) {
-                    bolder += String.fromCodePoint(0x1D434 + (c.charCodeAt(0) - 65));
+                    bolder += "\ud835" + String.fromCodePoint(0xDE08 + (c.charCodeAt(0) - 65));
                 } else if (c.match(/[a-z]/)) {
-                    bolder += String.fromCodePoint(0x1D434 + (c.charCodeAt(0) - 71));
+                    bolder += "\ud835" + String.fromCodePoint(0xDE22 + (c.charCodeAt(0) - 97));
                 } else {
                     bolder += c;
                 }
@@ -72,18 +72,24 @@ global.MarkdownToText = {
             return bolder;
         });
 
-        text = text.replace(/<ul>/g, "\n");
+        text = text.replace(/<ul>/g, "");
         text = text.replace(/<\/ul>/g, "\n");
-        text = text.replace(/<li>/g, "&#8226; ");
+        text = text.replace(/<li>/g, "\u2022 ");
         text = text.replace(/<\/li>/g, "\n");
         text = text.replace(/<hr>/g, "--------------------\n");
         text = text.replace(/<p>/g, "");
-        text = text.replace(/<\/p>/g, "");
+        text = text.replace(/<\/p>/g, "\n");
         return text;
     }
 }
 
 global.MarkdownToTextDOM = {
+    convertActiveElement: function () {
+        if (document.activeElement != null && document.activeElement.value != null) {
+            document.activeElement.value = MarkdownToText.convert(document.activeElement.value);
+        }
+    },
+
     render: function (el) {
         $el = $(el).append("<textarea id='editor-markdown'></textarea><textarea id='editor-text' readonly=true></textarea>");
         $('#editor-markdown').keyup(debounce(100, this._onkeyup));

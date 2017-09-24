@@ -1,6 +1,9 @@
 <html>
 
 <head>
+    <link rel="shortcut icon" href="favicon.ico" />
+    <link rel="icon" href="favicon.ico" />
+    <title>Markdown to Text Editor</title>
     <style>
         html,
         body,
@@ -32,18 +35,34 @@
         }
 
         #editor-markdown {
-
             background-color: #f6f6f6;
         }
 
-        code {
-            color: #f66;
+        div#banner {
+            top: 0;
+            left: 0;
+            background-color: palegoldenrod;
+            width: 100%;
+        }
+
+        div#banner-content {
+            margin: 0 auto;
+            padding: 10px;
+            text-align: center;
         }
     </style>
-    <script src="../dist/md2txt.js"></script>
+    <script src="https://rawgit.com/joshjcarrier/md2txt-js/master/dist/md2txt.js"></script>
 </head>
 
 <body>
+    <div id="banner">
+        <div id="banner-content">
+            <a href="javascript:(function(){(window.jQuery || window.$).getScript(['http','s:/','/','rawgit.com', '/joshjcarrier', '/md2txt-js','/master', '/dist', '/md2txt.js'].join(''),function(){MarkdownToTextDOM.convertActiveElement();});})()">📝➡️📢 MD2TXT</a><br/>Drag
+            the above link up to your bookmarks bar! Then, click it while focus is in any text area on any website to convert
+            markdown to unicode text.
+        </div>
+    </div>
+
     <div id="editor" />
 
     <script>
